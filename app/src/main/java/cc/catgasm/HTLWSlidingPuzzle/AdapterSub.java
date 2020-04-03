@@ -1,4 +1,4 @@
-package com.example.app_schiebepuzzle;
+package cc.catgasm.HTLWSlidingPuzzle;
 
 import android.content.Context;
 import android.view.View;

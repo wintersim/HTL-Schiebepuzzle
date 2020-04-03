@@ -1,4 +1,4 @@
-package com.example.app_schiebepuzzle;
+package cc.catgasm.HTLWSlidingPuzzle;
 
 public class ImageCell {
     private String path;

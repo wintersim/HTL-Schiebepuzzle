@@ -13,7 +13,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        TextView tv = findViewById(R.id.textView2);
+        TextView tv = findViewById(R.id.wholePicture);
         Intent intent = getIntent();
         tv.setText(String.format("%s%s", tv.getText(), intent.getStringExtra(MainActivity.GAME_SIZE_MESSAGE)));
     }
