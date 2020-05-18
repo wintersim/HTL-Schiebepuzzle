@@ -36,20 +36,9 @@ public class AdapterSub extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        int id = 0;
-        try{
-            Field idField = R.drawable.class.getDeclaredField(cells.get(position).getName());
-            id = idField.getInt(idField);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-
-        System.out.println("showing cell nr: " + position + "\t path: " + cells.get(position).getPath());
+        System.out.println("showing cell nr: " + position);
         ImageView view = new ImageView(context);
-        view.setImageResource(id);
+        view.setImageBitmap(cells.get(position).getBitmap());
 
         view.setMaxHeight(30);
         view.setMaxWidth(30);

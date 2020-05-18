@@ -1,22 +1,18 @@
 package cc.catgasm.HTLWSlidingPuzzle;
 
+import android.graphics.Bitmap;
+
 public class ImageCell {
-    private String path;
-    private String name;
+    private Bitmap bitmap;
     private int id;
 
-    public ImageCell(String path, String name, int id) {
+    public ImageCell(int id, Bitmap bitmap) {
         this.id = id;
-        this.path = path;
-        this.name = name;
+        this.bitmap = bitmap;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 
     public int getId() {
@@ -27,11 +23,4 @@ public class ImageCell {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
