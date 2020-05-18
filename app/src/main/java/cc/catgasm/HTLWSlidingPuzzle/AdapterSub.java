@@ -26,7 +26,7 @@ public class AdapterSub extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return cells.get(position);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AdapterSub extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("showing cell nr: " + position);
+        //System.out.println("showing cell nr: " + position);
         ImageView view = new ImageView(context);
         view.setImageBitmap(cells.get(position).getBitmap());
 
@@ -44,5 +44,9 @@ public class AdapterSub extends BaseAdapter {
         view.setMaxWidth(30);
 
         return view;
+    }
+
+    public void setCells(ArrayList<ImageCell> cells) {
+        this.cells = cells;
     }
 }
