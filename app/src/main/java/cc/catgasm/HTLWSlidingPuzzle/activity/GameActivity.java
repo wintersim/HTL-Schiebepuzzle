@@ -44,14 +44,15 @@ public class GameActivity extends AppCompatActivity {
         final int gridSize = intent.getIntExtra(MainActivity.GAME_SIZE_MESSAGE, 3);
         ImageParcelable parcelable = intent.getParcelableExtra(MainActivity.IMAGE_MESSAGE);
 
-        createCells(gridSize, parcelable);
 
-        imgToggle = true;
+        imgToggle = false;
 
         final GridView gridView = findViewById(R.id.gridview);
         final ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, cells);
         gridView.setAdapter(imageGridAdapter);
         gridView.setNumColumns(gridSize);
+        gridView.setVerticalSpacing(0);
+        createCells(gridSize, parcelable);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,6 +85,46 @@ public class GameActivity extends AppCompatActivity {
                 gridView.invalidateViews();
             }
         });
+    }
+
+    private void createCells(int sz, ImageParcelable parcelable) {
+        SlicedImage si;
+        ip = parcelable;
+        if (parcelable.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
+            si = new SlicedImage(getBitmapFromResources(R.drawable.wholepicture));
+        } else {
+            try {
+                si = new SlicedImage(getBitmapFromUri(parcelable.getCustomImage()));
+            } catch (IOException e) {
+                Toast t = Toast.makeText(this, R.string.cutom_image_error_toast, Toast.LENGTH_SHORT);
+                t.show();
+                finish();
+                return;
+            }
+        }
+
+        List<Bitmap> bitmaps = si.slice(sz);
+
+        for (int i = 0; i < bitmaps.size(); i++) {
+            cells.add(new ImageCell(i, bitmaps.get(i)));
+        }
+        Collections.shuffle(cells);
+        System.out.println("Cells added.");
+    }
+
+    private Bitmap getBitmapFromResources(int resId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        return BitmapFactory.decodeResource(getResources(), resId, options);
+    }
+
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
     }
 
     private boolean checkWin() {
@@ -147,47 +188,6 @@ public class GameActivity extends AppCompatActivity {
         //System.out.println("nRight: " + neighbors[3]);
 
         return neighbors;
-    }
-
-    private Bitmap getBitmapFromResources(int resId) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        return BitmapFactory.decodeResource(getResources(), resId, options);
-    }
-
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor =
-                getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }
-
-    private void createCells(int sz, ImageParcelable parcelable) {
-        SlicedImage si;
-        ip = parcelable;
-        if (parcelable.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
-            si = new SlicedImage(getBitmapFromResources(R.drawable.wholepicture));
-        } else {
-            try {
-                si = new SlicedImage(getBitmapFromUri(parcelable.getCustomImage()));
-            } catch (IOException e) {
-                Toast t = Toast.makeText(this, R.string.cutom_image_error_toast, Toast.LENGTH_SHORT);
-                t.show();
-                finish();
-                return;
-            }
-        }
-
-        List<Bitmap> bitmaps = si.slice(sz);
-
-        for (int i = 0; i < (sz * sz) - 1; i++) {
-            cells.add(new ImageCell(i, bitmaps.get(i)));
-        }
-        cells.add(new ImageCell((sz * sz) - 1, getBitmapFromResources(R.drawable.placeholder)));
-        Collections.shuffle(cells);
-        System.out.println("Cells added.");
     }
 
     public int[] getCoordinates(int position, int gridSize) {

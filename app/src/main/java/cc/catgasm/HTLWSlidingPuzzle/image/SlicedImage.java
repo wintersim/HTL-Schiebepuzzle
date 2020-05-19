@@ -1,7 +1,9 @@
 package cc.catgasm.HTLWSlidingPuzzle.image;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
+import android.widget.GridView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,9 +30,14 @@ public class SlicedImage {
         int currentSlicedHeight = 0;
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < w; j++) {
+                if(i == w - 1 && j == w - 1) {
+                    Bitmap tmp = Bitmap.createBitmap(slicedWidth,slicedHeight, originalImage.getConfig());
+                    tmp.eraseColor(Color.WHITE);
+                    slicedImages.add(tmp);
+                    continue;
+                }
                 originalImage.getPixels(pixels,0,slicedWidth,currentSlicedWidth,currentSlicedHeight,slicedWidth,slicedHeight);
                 Bitmap tmp = Bitmap.createBitmap(pixels,slicedWidth,slicedHeight, originalImage.getConfig());
-                Log.e("bruh", tmp.toString());
                 slicedImages.add(tmp);
                 currentSlicedWidth += slicedWidth;
             }
