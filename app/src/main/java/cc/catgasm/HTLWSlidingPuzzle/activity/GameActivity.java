@@ -91,7 +91,7 @@ public class GameActivity extends AppCompatActivity {
         SlicedImage si;
         ip = parcelable;
         if (parcelable.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
-            si = new SlicedImage(getBitmapFromResources(R.drawable.wholepicture));
+            si = new SlicedImage(getBitmapFromResources(R.drawable.htl_wels));
         } else {
             try {
                 si = new SlicedImage(getBitmapFromUri(parcelable.getCustomImage()));
@@ -202,7 +202,7 @@ public class GameActivity extends AppCompatActivity {
         ImageView img = findViewById(R.id.imageView);
         if (!imgToggle) {
             if (ip.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
-                img.setImageResource(R.drawable.wholepicture);
+                img.setImageResource(R.drawable.htl_wels);
             } else {
                 try {
                     img.setImageBitmap(getBitmapFromUri(ip.getCustomImage()));

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(customImageUri != null) {
             intent.putExtra(IMAGE_MESSAGE, new ImageParcelable(customImageUri));
         } else {
-            intent.putExtra(IMAGE_MESSAGE, new ImageParcelable(R.drawable.wholepicture));
+            intent.putExtra(IMAGE_MESSAGE, new ImageParcelable(R.drawable.htl_wels));
         }
         startActivity(intent);
     }
