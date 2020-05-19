@@ -1,16 +1,13 @@
-package cc.catgasm.HTLWSlidingPuzzle;
+package cc.catgasm.HTLWSlidingPuzzle.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -23,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cc.catgasm.HTLWSlidingPuzzle.R;
+import cc.catgasm.HTLWSlidingPuzzle.grid.ImageGridAdapter;
+import cc.catgasm.HTLWSlidingPuzzle.grid.ImageCell;
 import cc.catgasm.HTLWSlidingPuzzle.image.SlicedImage;
 import cc.catgasm.HTLWSlidingPuzzle.parcelable.ImageParcelable;
 
@@ -49,8 +49,8 @@ public class GameActivity extends AppCompatActivity {
         imgToggle = true;
 
         final GridView gridView = findViewById(R.id.gridview);
-        final AdapterSub adapterSub = new AdapterSub(this, cells);
-        gridView.setAdapter(adapterSub);
+        final ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, cells);
+        gridView.setAdapter(imageGridAdapter);
         gridView.setNumColumns(gridSize);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -79,7 +79,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                     }
                     System.out.println();
-                    adapterSub.setCells(cells);
+                    imageGridAdapter.setCells(cells);
                 }
                 gridView.invalidateViews();
             }

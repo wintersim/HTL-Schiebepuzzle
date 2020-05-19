@@ -1,4 +1,4 @@
-package cc.catgasm.HTLWSlidingPuzzle;
+package cc.catgasm.HTLWSlidingPuzzle.grid;
 
 import android.graphics.Bitmap;
 

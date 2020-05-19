@@ -1,4 +1,4 @@
-package cc.catgasm.HTLWSlidingPuzzle;
+package cc.catgasm.HTLWSlidingPuzzle.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,12 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.provider.DocumentsContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import cc.catgasm.HTLWSlidingPuzzle.R;
 import cc.catgasm.HTLWSlidingPuzzle.parcelable.ImageParcelable;
 
 
