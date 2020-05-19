@@ -46,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
 
         createCells(gridSize, parcelable);
 
-        imgToggle = true;
+        imgToggle = false;
 
         final GridView gridView = findViewById(R.id.gridview);
         final AdapterSub adapterSub = new AdapterSub(this, cells);
