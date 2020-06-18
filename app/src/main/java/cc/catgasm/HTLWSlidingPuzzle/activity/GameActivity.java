@@ -4,17 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +21,7 @@ import cc.catgasm.HTLWSlidingPuzzle.grid.ImageGridAdapter;
 import cc.catgasm.HTLWSlidingPuzzle.grid.ImageCell;
 import cc.catgasm.HTLWSlidingPuzzle.image.SlicedImage;
 import cc.catgasm.HTLWSlidingPuzzle.parcelable.ImageParcelable;
+import cc.catgasm.HTLWSlidingPuzzle.util.Util;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -32,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
 
     private boolean imgToggle;
     private ImageParcelable ip;
-
+    private Bitmap helpImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +88,14 @@ public class GameActivity extends AppCompatActivity {
         SlicedImage si;
         ip = parcelable;
         if (parcelable.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
-            si = new SlicedImage(getBitmapFromResources(R.drawable.htl_wels));
+            helpImage = Util.getBitmapFromResources(getResources(),R.drawable.htl_wels);
+            si = new SlicedImage(helpImage);
         } else {
             try {
-                si = new SlicedImage(getBitmapFromUri(parcelable.getCustomImage()));
+                helpImage = Util.getBitmapFromUri(getContentResolver(),parcelable.getCustomImage());
+                si = new SlicedImage(helpImage);
             } catch (IOException e) {
-                Toast t = Toast.makeText(this, R.string.cutom_image_error_toast, Toast.LENGTH_SHORT);
+                Toast t = Toast.makeText(this, R.string.custom_image_error_toast, Toast.LENGTH_SHORT);
                 t.show();
                 finish();
                 return;
@@ -110,21 +109,6 @@ public class GameActivity extends AppCompatActivity {
         }
         Collections.shuffle(cells);
         System.out.println("Cells added.");
-    }
-
-    private Bitmap getBitmapFromResources(int resId) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        return BitmapFactory.decodeResource(getResources(), resId, options);
-    }
-
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor =
-                getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
     }
 
     private boolean checkWin() {
@@ -201,15 +185,7 @@ public class GameActivity extends AppCompatActivity {
     public void togglePicture(View view) {
         ImageView img = findViewById(R.id.imageView);
         if (!imgToggle) {
-            if (ip.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
-                img.setImageResource(R.drawable.htl_wels);
-            } else {
-                try {
-                    img.setImageBitmap(getBitmapFromUri(ip.getCustomImage()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            img.setImageBitmap(helpImage);
             imgToggle = true;
         } else {
             img.setImageResource(R.drawable.placeholder);

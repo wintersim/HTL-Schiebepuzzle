@@ -12,10 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 import cc.catgasm.HTLWSlidingPuzzle.R;
 import cc.catgasm.HTLWSlidingPuzzle.parcelable.ImageParcelable;
+import cc.catgasm.HTLWSlidingPuzzle.util.Util;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 uri = data.getData();
                 if(uri != null) {
                     customImageUri = uri;
+                    setPreviewImg(customImageUri);
                     //Berechtigung speichern
                     final int takeFlags = data.getFlags()
                             & (Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -84,5 +90,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void setPreviewImg(Uri uri) {
+        ImageView iv = findViewById(R.id.imgPreview);
+        try {
+            iv.setImageBitmap(Util.getBitmapFromUri(getContentResolver(), uri));
+        } catch (IOException e) {
+            Toast t = Toast.makeText(this, R.string.custom_image_error_toast, Toast.LENGTH_SHORT);
+            t.show();
+            e.printStackTrace();
+        }
     }
 }

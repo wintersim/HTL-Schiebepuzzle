@@ -13,5 +13,5 @@
         <item>6x6</item>
         <item>7x7</item>
     </string-array>
-    <string name="cutom_image_error_toast">Eigenes Bild konnte nicht geöffnet werden</string>
+    <string name="custom_image_error_toast">Eigenes Bild konnte nicht geöffnet werden</string>
 </resources>
