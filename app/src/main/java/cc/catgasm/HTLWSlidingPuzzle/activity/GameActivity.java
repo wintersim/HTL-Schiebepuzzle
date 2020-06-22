@@ -25,11 +25,16 @@ import cc.catgasm.HTLWSlidingPuzzle.util.Util;
 
 public class GameActivity extends AppCompatActivity {
 
+    public static final String TIMESTAMP = "cc.catgasm.HTLWSlidingPuzzle.TIMESTAMP";
+
     private ArrayList<ImageCell> cells = new ArrayList<>();
 
     private boolean imgToggle;
     private ImageParcelable ip;
     private Bitmap helpImage;
+    private int gridSize;
+
+    private boolean bruh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        final int gridSize = intent.getIntExtra(MainActivity.GAME_SIZE_MESSAGE, 3);
+        gridSize = intent.getIntExtra(MainActivity.GAME_SIZE_MESSAGE, 3);
         ImageParcelable parcelable = intent.getParcelableExtra(MainActivity.IMAGE_MESSAGE);
 
 
@@ -51,37 +56,52 @@ public class GameActivity extends AppCompatActivity {
         gridView.setVerticalSpacing(0);
         createCells(gridSize, parcelable);
 
+        final long timeStamp = System.currentTimeMillis();
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ImageCell imgC = (ImageCell) gridView.getItemAtPosition(position);
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    ImageCell imgC = (ImageCell) gridView.getItemAtPosition(position);
 
-                if (!(imgC.getId() == ((gridSize * gridSize) - 1))) {
-                    int[] c = getCoordinates(position, gridSize);
-                    ImageCell[][] grid = turnListIntoGrid(gridSize);
-                    int[] neighbors = getNeighbors(position, c, grid, gridSize);
+                    if (!(imgC.getId() == ((gridSize * gridSize) - 1))) {
+                        int[] c = getCoordinates(position, gridSize);
+                        ImageCell[][] grid = turnListIntoGrid(gridSize);
+                        int[] neighbors = getNeighbors(position, c, grid, gridSize);
 
-                    System.out.println("position: " + position);
-                    for (int i = 0; i < neighbors.length; i++) {
-                        if (neighbors[i] != -1) {
-                            System.out.print("pos i: " + neighbors[i] + "\t");
-                            if (cells.get(neighbors[i]).getId() == ((gridSize * gridSize) - 1)) {
-                                System.out.println();
-                                System.out.println("=======================");
-                                Collections.swap(cells, neighbors[i], position);
-                                if (checkWin()) {
-                                    System.out.println("won");
+                        System.out.println("position: " + position);
+                        for (int i = 0; i < neighbors.length; i++) {
+                            if (neighbors[i] != -1) {
+                                System.out.print("pos i: " + neighbors[i] + "\t");
+                                if (cells.get(neighbors[i]).getId() == ((gridSize * gridSize) - 1)) {
+                                    System.out.println();
+                                    System.out.println("=======================");
+                                    Collections.swap(cells, neighbors[i], position);
+                                    if (checkWin()) {
+                                        bruh = false;
+                                        startCelebration(System.currentTimeMillis() - timeStamp);
+                                        System.out.println("won");
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
+                        System.out.println();
+                        imageGridAdapter.setCells(cells);
                     }
-                    System.out.println();
-                    imageGridAdapter.setCells(cells);
+                    gridView.invalidateViews();
                 }
-                gridView.invalidateViews();
-            }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (bruh) {
+            finish();
+        } else {
+            System.out.println(bruh);
+            bruh = true;
+        }
     }
 
     private void createCells(int sz, ImageParcelable parcelable) {
@@ -180,6 +200,14 @@ public class GameActivity extends AppCompatActivity {
         coordinates[1] = (int) position / gridSize;
 
         return coordinates;
+    }
+
+    private void startCelebration(long time) {
+        Intent intent = new Intent(this, CelebrationActivity.class);
+        intent.putExtra(TIMESTAMP, time);
+        intent.putExtra(MainActivity.GAME_SIZE_MESSAGE, gridSize);
+        startActivity(intent);
+        finish();
     }
 
     public void togglePicture(View view) {
