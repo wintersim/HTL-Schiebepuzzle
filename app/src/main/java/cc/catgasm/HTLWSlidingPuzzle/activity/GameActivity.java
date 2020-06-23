@@ -99,7 +99,7 @@ public class GameActivity extends AppCompatActivity {
         SlicedImage si;
         ip = parcelable;
         if (parcelable.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
-            helpImage = Util.getBitmapFromResources(getResources(),R.drawable.htl_wels);
+            helpImage = Util.getBitmapFromResources(getResources(),parcelable.getOfficialImageId());
             si = new SlicedImage(helpImage);
         } else {
             try {

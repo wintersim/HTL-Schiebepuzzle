@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -27,9 +28,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public static final String GAME_SIZE_MESSAGE = "cc.catgasm.HTLWSlidingPuzzle.GAME_SIZE_MESSAGE";
     public static final String IMAGE_MESSAGE = "cc.catgasm.HTLWSlidingPuzzle.IMAGE_MESSAGE";
+    public static final String GALLERY_RETURN_MESSAGE = "cc.catgasm.HTLWSlidingPuzzle.GALLERY_RETURN_MESSAGE";
     private static final int PICK_IMAGE_FILE = 9873;
+    private static final int OPEN_GALLERY = 9873;
     private int gameSize;
     private Uri customImageUri;
+    private int imgResId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Spinner spinner = findViewById(R.id.size_spinner);
         spinner.setOnItemSelectedListener(this);
         gameSize = 3;
+        imgResId = -1;
+        customImageUri = null;
     }
 
     public void startGame(View view) {
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(customImageUri != null) {
             intent.putExtra(IMAGE_MESSAGE, new ImageParcelable(customImageUri));
         } else {
-            intent.putExtra(IMAGE_MESSAGE, new ImageParcelable(R.drawable.htl_wels));
+            intent.putExtra(IMAGE_MESSAGE, new ImageParcelable(imgResId > 0 ? imgResId : R.drawable.htl_wels));
         }
         startActivity(intent);
     }
@@ -59,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         startActivityForResult(intent, PICK_IMAGE_FILE);
+    }
+
+    public void openGallery(View view) {
+        startActivityForResult(new Intent(this, GalleryActivity.class), OPEN_GALLERY);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -77,6 +87,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             & (Intent.FLAG_GRANT_READ_URI_PERMISSION
                             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     getContentResolver().takePersistableUriPermission(uri, takeFlags);
+                }
+            }
+        }
+        if(requestCode == OPEN_GALLERY
+                && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                int resId = data.getIntExtra(GALLERY_RETURN_MESSAGE, -1);
+                if(resId > 0) {
+                    setPreviewImg(resId);
+                    imgResId = resId;
                 }
             }
         }
@@ -101,5 +121,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             t.show();
             e.printStackTrace();
         }
+    }
+
+    private void setPreviewImg(int resId) {
+        ImageView iv = findViewById(R.id.imgPreview);
+        iv.setImageResource(resId);
     }
 }

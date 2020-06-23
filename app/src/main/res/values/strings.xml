@@ -5,6 +5,7 @@
     <string name="app_greeting">HTL Wels Schiebepuzzle</string>
     <string name="start_btn_text">Start game</string>
     <string name="open_file_btn_text">Bild öffnen</string>
+    <string name="open_gallery_btn_text">Gallerie öffnen</string>
     <string name="size_spinner_text">Größe Wählen</string>
     <string-array name="size_spinner_values">
         <item>2x2</item>
