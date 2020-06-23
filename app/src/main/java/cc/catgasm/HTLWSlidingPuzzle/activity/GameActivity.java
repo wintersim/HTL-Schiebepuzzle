@@ -26,6 +26,7 @@ import cc.catgasm.HTLWSlidingPuzzle.util.Util;
 public class GameActivity extends AppCompatActivity {
 
     public static final String TIMESTAMP = "cc.catgasm.HTLWSlidingPuzzle.TIMESTAMP";
+    public static final String TAPS = "cc.catgasm.HTLWSlidingPuzzle.TAPS";
 
     private ArrayList<ImageCell> cells = new ArrayList<>();
 
@@ -34,13 +35,14 @@ public class GameActivity extends AppCompatActivity {
     private Bitmap helpImage;
     private int gridSize;
 
-    private boolean bruh;
+    private int taps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        taps = 0;
 
         Intent intent = getIntent();
         gridSize = intent.getIntExtra(MainActivity.GAME_SIZE_MESSAGE, 3);
@@ -62,6 +64,7 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     ImageCell imgC = (ImageCell) gridView.getItemAtPosition(position);
+                    taps++;
 
                     if (!(imgC.getId() == ((gridSize * gridSize) - 1))) {
                         int[] c = getCoordinates(position, gridSize);
@@ -77,7 +80,6 @@ public class GameActivity extends AppCompatActivity {
                                     System.out.println("=======================");
                                     Collections.swap(cells, neighbors[i], position);
                                     if (checkWin()) {
-                                        bruh = false;
                                         startCelebration(System.currentTimeMillis() - timeStamp);
                                         System.out.println("won");
                                     }
@@ -91,17 +93,6 @@ public class GameActivity extends AppCompatActivity {
                     gridView.invalidateViews();
                 }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (bruh) {
-            finish();
-        } else {
-            System.out.println(bruh);
-            bruh = true;
-        }
     }
 
     private void createCells(int sz, ImageParcelable parcelable) {
@@ -205,6 +196,7 @@ public class GameActivity extends AppCompatActivity {
     private void startCelebration(long time) {
         Intent intent = new Intent(this, CelebrationActivity.class);
         intent.putExtra(TIMESTAMP, time);
+        intent.putExtra(TAPS, taps);
         intent.putExtra(MainActivity.GAME_SIZE_MESSAGE, gridSize);
         startActivity(intent);
         finish();
