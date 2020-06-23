@@ -2,6 +2,7 @@ package cc.catgasm.HTLWSlidingPuzzle.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,21 +22,20 @@ public class GalleryActivity extends AppCompatActivity implements View.OnClickLi
 
         LinearLayout ll = findViewById(R.id.gallery_linear_layout);
 
-        int[] resIds = new int[] {
-                R.drawable.htl_haupteingang,
-                R.drawable.htl_logo,
-                R.drawable.htl_seite,
-                R.drawable.htl_tdot,
-                R.drawable.htl_wels
-        };
+        TypedArray ta = getResources().obtainTypedArray(R.array.gallery_images);
+        int sz = ta.length();
 
-        for (int resId : resIds) {
-            ImageView iv = new ImageView(this);
-            iv.setImageResource(resId);
-            iv.setTag(resId);
-            iv.setOnClickListener(this);
-            ll.addView(iv);
+        for (int i = 0; i < sz; i++) {
+            int resId = ta.getResourceId(i, -1);
+            if(resId > 0) {
+                ImageView iv = new ImageView(this);
+                iv.setImageResource(resId);
+                iv.setTag(resId);
+                iv.setOnClickListener(this);
+                ll.addView(iv);
+            }
         }
+        ta.recycle();
     }
 
     @Override

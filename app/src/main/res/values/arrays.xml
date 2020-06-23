@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="gallery_images">
+        <item>@drawable/htl_haupteingang</item>
+        <item>@drawable/htl_logo</item>
+        <item>@drawable/htl_seite</item>
+        <item>@drawable/htl_tdot</item>
+        <item>@drawable/htl_wels</item>
+    </integer-array>
+</resources>
