@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import cc.catgasm.HTLWSlidingPuzzle.R;
 import cc.catgasm.HTLWSlidingPuzzle.grid.ImageGridAdapter;
@@ -60,6 +62,8 @@ public class GameActivity extends AppCompatActivity {
 
         final long timeStamp = System.currentTimeMillis();
 
+        int[] neighbors = new int[4]; //Array nur einmal erstellen
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,9 +71,7 @@ public class GameActivity extends AppCompatActivity {
                     taps++;
 
                     if (!(imgC.getId() == ((gridSize * gridSize) - 1))) {
-                        int[] c = getCoordinates(position, gridSize);
-                        ImageCell[][] grid = turnListIntoGrid(gridSize);
-                        int[] neighbors = getNeighbors(position, c, grid, gridSize);
+                        getNeighbors(position, gridSize, neighbors);
 
                         System.out.println("position: " + position);
                         for (int i = 0; i < neighbors.length; i++) {
@@ -118,8 +120,31 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < bitmaps.size(); i++) {
             cells.add(new ImageCell(i, bitmaps.get(i)));
         }
-        Collections.shuffle(cells);
+        shuffle(cells);
         System.out.println("Cells added.");
+    }
+
+    private void shuffle(List<?> list) {
+        Random r = new Random();
+        int sz = list.size();
+        int[] neighbors = new int[4];
+
+        do {
+            int emptyPos = sz - 1;
+
+            int cnt = r.nextInt(50) + 20 * gridSize * gridSize;
+
+            //Die 'weiße Fläche' cnt mal mit einem zufälligen nachbar tauschen
+            for (int i = 0; i < cnt; i++) {
+                getNeighbors(emptyPos, gridSize, neighbors);
+                int tmpSwap = -1;
+                do {
+                    tmpSwap = neighbors[r.nextInt(4)];
+                } while (tmpSwap < 0);
+                Collections.swap(list, emptyPos, tmpSwap);
+                emptyPos = tmpSwap;
+            }
+        } while (checkWin()); //Wenn bereits richtig sortiert, nochmal shuffeln
     }
 
     private boolean checkWin() {
@@ -131,29 +156,18 @@ public class GameActivity extends AppCompatActivity {
         return true;
     }
 
-    private ImageCell[][] turnListIntoGrid(int gridSize) {
-        ImageCell[][] grid = new ImageCell[gridSize][gridSize];
-        int run = 0;
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                grid[i][j] = cells.get(run);
-                System.out.print(run  + "/" + cells.get(run).getId() + "\t");
-                run++;
-            }
-            System.out.println();
-        }
-        return grid;
-    }
-
-    private int[] getNeighbors(int position, int[] c, ImageCell[][] grid, int gridSize) {
-        int[] neighbors = new int[4];
+    //neighbors soll von aussen erstellt werden
+    //Methode muss dann nicht immer ein neues Array erstellen (Speicher verschwendung)
+    private void getNeighbors(int position, int gridSize, int[] neighbors) {
         int tmp = position - gridSize;
+        int[] tmpCoords = new int[2];
+        int[] c = new int[2];
+        getCoordinates(position, gridSize, c);
         if (tmp >= 0) {                              //neighbor over tappedfield
             neighbors[0] = tmp;
         } else {
             neighbors[0] = -1;
         }
-        //System.out.print("nTop: " + neighbors[0] + "\t");
 
         tmp = position + gridSize;
         if (tmp < (gridSize * gridSize)) {          //neighbor under tappedfield
@@ -161,32 +175,26 @@ public class GameActivity extends AppCompatActivity {
         } else {
             neighbors[1] = -1;
         }
-        //System.out.print("nUnder: " + neighbors[1] + "\t");
 
         tmp = position - 1;
-        if (tmp >= 0 && !(getCoordinates(tmp, gridSize)[1] < c[1])) { //neighbor left from tappedfield
+        if (tmp >= 0 && !(getCoordinates(tmp, gridSize, tmpCoords)[1] < c[1])) { //neighbor left from tappedfield
             neighbors[2] = tmp;
         } else {
             neighbors[2] = -1;
         }
-        System.out.println("position c[1]: " + c[1] + "\tposition - 1 [1]: " + getCoordinates(tmp, gridSize)[1]);
-        //System.out.print("nLeft: " + neighbors[2] + "\t");
 
         tmp = position + 1;
-        if (tmp < (gridSize * gridSize) && !(getCoordinates(tmp, gridSize)[1] > c[1])) {//neighbor right from tappedfield
+        if (tmp < (gridSize * gridSize) && !(getCoordinates(tmp, gridSize, tmpCoords)[1] > c[1])) {//neighbor right from tappedfield
             neighbors[3] = tmp;
         } else {
             neighbors[3] = -1;
         }
-        System.out.println("position c[1]: " + c[1] + "\tposition + 1 [1]: " + getCoordinates(tmp, gridSize)[1]);
-
-        //System.out.println("nRight: " + neighbors[3]);
-
-        return neighbors;
     }
 
-    public int[] getCoordinates(int position, int gridSize) {
-        int[] coordinates = new int[2];
+    //coordinates von aussen erstellen
+    //gleich wie bei getneighbors
+    //Gibt sich selbst zurück für chaining
+    public int[] getCoordinates(int position, int gridSize, int[] coordinates) {
         coordinates[0] = position % gridSize;
         coordinates[1] = (int) position / gridSize;
 
