@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="returnToMenu">
+    android:onClick="returnToMenu"
+    android:background="@color/design_default_color_primary">
 
     <TextView
         android:id="@+id/textView"
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="144dp"
         android:text="Sie haben ein Level der Größe"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +23,7 @@
         android:id="@+id/sizeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="in einer Zeit von"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +44,7 @@
         android:id="@+id/timeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="mit"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeText" />
@@ -58,6 +64,7 @@
         android:id="@+id/tapsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Berührungen gelöst!"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +87,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="84dp"
         android:text="@string/celebration_ending_button"
+        android:textColor="@color/text"
         android:onClick="returnToMenu"
+        android:background="@drawable/background_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

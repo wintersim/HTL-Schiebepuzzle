@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">HTL-Schiebepuzzle</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="app_greeting">HTL Wels Schiebepuzzle</string>
+    <string name="app_greeting">HTL-Wels Schiebepuzzle</string>
     <string name="start_btn_text">Start game</string>
     <string name="open_file_btn_text">Bild öffnen</string>
     <string name="open_gallery_btn_text">Gallerie öffnen</string>
@@ -17,4 +16,6 @@
     </string-array>
     <string name="custom_image_error_toast">Eigenes Bild konnte nicht geöffnet werden</string>
     <string name="celebration_ending_button">Zurück zum Hauptmenü</string>
+    <string name="gallery_info_text">Wählen Sie ein Bild aus</string>
+    <string name="main_menu_size_text">Schwierigkeit</string>
 </resources>

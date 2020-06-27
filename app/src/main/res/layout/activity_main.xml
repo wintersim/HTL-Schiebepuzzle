@@ -4,19 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.MainActivity"
+    android:background="@color/design_default_color_primary">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:fontFamily="sans-serif-black"
         android:text="@string/app_greeting"
+        android:textColor="@color/text"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.125" />
 
     <Button
         android:id="@+id/button"
@@ -25,8 +33,11 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="44dp"
+        android:background="@drawable/background_round"
         android:onClick="startGame"
         android:text="@string/start_btn_text"
+        android:textColor="@color/text"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -39,6 +50,8 @@
         android:layout_marginBottom="44dp"
         android:onClick="openFile"
         android:text="@string/open_file_btn_text"
+        android:textColor="@color/text"
+        android:background="@drawable/background_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,12 +61,17 @@
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="84dp"
         android:entries="@array/size_spinner_values"
         android:prompt="@string/size_spinner_text"
+        android:scrollbarThumbHorizontal="@color/colorPrimaryDark"
+        android:scrollbarThumbVertical="@color/colorPrimaryDark"
         android:spinnerMode="dropdown"
+        android:theme="@style/SpinnerTheme"
+        android:popupTheme="@style/SpinnerPopupTheme"
+        android:background="@drawable/background_round"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.835"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -73,12 +91,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="44dp"
+        android:background="@drawable/background_round"
         android:onClick="openGallery"
         android:text="@string/open_gallery_btn_text"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.206"
         app:layout_constraintStart_toEndOf="@+id/open_file"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/size_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="95dp"
+        android:text="@string/main_menu_size_text"
+        android:textColor="@color/text"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

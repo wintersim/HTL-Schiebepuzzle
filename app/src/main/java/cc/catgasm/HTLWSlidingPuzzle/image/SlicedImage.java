@@ -11,9 +11,11 @@ import java.util.List;
 //TODO Thread
 public class SlicedImage {
     private Bitmap originalImage;
+    private int emptyColor;
 
-    public SlicedImage(Bitmap originalImage) {
+    public SlicedImage(Bitmap originalImage, int emptyColor) {
         this.originalImage = originalImage;
+        this.emptyColor = emptyColor;
     }
 
     /*
@@ -32,7 +34,7 @@ public class SlicedImage {
             for (int j = 0; j < w; j++) {
                 if(i == w - 1 && j == w - 1) {
                     Bitmap tmp = Bitmap.createBitmap(slicedWidth,slicedHeight, originalImage.getConfig());
-                    tmp.eraseColor(Color.WHITE);
+                    tmp.eraseColor(emptyColor);
                     slicedImages.add(tmp);
                     continue;
                 }

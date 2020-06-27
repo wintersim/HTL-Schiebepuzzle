@@ -1,6 +1,7 @@
 package cc.catgasm.HTLWSlidingPuzzle.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -99,14 +100,15 @@ public class GameActivity extends AppCompatActivity {
 
     private void createCells(int sz, ImageParcelable parcelable) {
         SlicedImage si;
+        int color = ContextCompat.getColor(getApplicationContext(), R.color.sliced_image_empty_color);
         ip = parcelable;
         if (parcelable.getImageType() == ImageParcelable.OFFICIAL_IMAGE) {
             helpImage = Util.getBitmapFromResources(getResources(),parcelable.getOfficialImageId());
-            si = new SlicedImage(helpImage);
+            si = new SlicedImage(helpImage, color);
         } else {
             try {
                 helpImage = Util.getBitmapFromUri(getContentResolver(),parcelable.getCustomImage());
-                si = new SlicedImage(helpImage);
+                si = new SlicedImage(helpImage, color);
             } catch (IOException e) {
                 Toast t = Toast.makeText(this, R.string.custom_image_error_toast, Toast.LENGTH_SHORT);
                 t.show();
@@ -216,7 +218,7 @@ public class GameActivity extends AppCompatActivity {
             img.setImageBitmap(helpImage);
             imgToggle = true;
         } else {
-            img.setImageResource(R.drawable.placeholder);
+            img.setImageResource(R.drawable.help);
 
             imgToggle = false;
         }
