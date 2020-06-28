@@ -4,14 +4,20 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.GameActivity" android:parentActivityName=".activity.MainActivity"></activity>
-        <activity android:name=".activity.CelebrationActivity" android:parentActivityName=".activity.GameActivity"></activity>
-        <activity android:name=".activity.GalleryActivity" android:parentActivityName=".activity.MainActivity"></activity>
+        <activity
+            android:name=".activity.GameActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
+            android:name=".activity.CelebrationActivity"
+            android:parentActivityName=".activity.GameActivity" />
+        <activity
+            android:name=".activity.GalleryActivity"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
