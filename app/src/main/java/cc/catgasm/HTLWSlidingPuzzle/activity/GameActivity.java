@@ -1,8 +1,5 @@
 package cc.catgasm.HTLWSlidingPuzzle.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,16 +9,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import cc.catgasm.HTLWSlidingPuzzle.R;
-import cc.catgasm.HTLWSlidingPuzzle.grid.ImageGridAdapter;
 import cc.catgasm.HTLWSlidingPuzzle.grid.ImageCell;
+import cc.catgasm.HTLWSlidingPuzzle.grid.ImageGridAdapter;
 import cc.catgasm.HTLWSlidingPuzzle.image.SlicedImage;
 import cc.catgasm.HTLWSlidingPuzzle.parcelable.ImageParcelable;
 import cc.catgasm.HTLWSlidingPuzzle.util.Util;

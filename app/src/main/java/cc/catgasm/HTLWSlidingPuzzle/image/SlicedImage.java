@@ -1,9 +1,6 @@
 package cc.catgasm.HTLWSlidingPuzzle.image;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.util.Log;
-import android.widget.GridView;
 
 import java.util.LinkedList;
 import java.util.List;
