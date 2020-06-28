@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if(resId > 0) {
                     setPreviewImg(resId);
                     imgResId = resId;
+                    customImageUri = null; //falls vorher ein eigenes bild gewählt wurde
                 }
             }
         }
